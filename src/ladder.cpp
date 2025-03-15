@@ -40,40 +40,7 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
 }
 
 bool is_adjacent(const string& word1, const string& word2) {
-    int diff = 0;
-    int size1 = word1.size();
-    int size2 = word2.size();
-    int size_diff = abs(size1 - size2);
-
-    if(size_diff == 0) {
-        for(int i = 0; i < size1; ++i) {
-            if(word1[i] != word2[i]) {
-                ++diff;
-                if(diff > 1) return false;
-            }
-        }
-    }
-    else if(size_diff == 1) {
-        int i = 0, j = 0;
-        while (i < size1 && j < size2) {
-            if (word1[i] != word2[j]) {
-                if (size1 > size2) {
-                    i++;
-                } else {
-                    j++;
-                }
-                diff += 1;
-                if (diff > 1) return false;
-            } 
-            else {
-                i++;
-                j++;
-            }
-        }
-    } 
-    else return false; 
-    // Only pass state
-    return true;
+    return edit_distance_within(word1, word2, 1);
 }
 
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
@@ -137,8 +104,9 @@ void load_words(set<string> & word_list, const string& file_name) {
 
 void print_word_ladder(const vector<string>& ladder) {
     if(ladder.empty()) 
-        cout << "\nNo word ladder found";
+        cout << "No word ladder found" << endl;
     else {
+        cout << "Word ladder found: ";
         for(string word: ladder)
             cout << word << " ";
         cout << endl;
